@@ -1,0 +1,40 @@
+h1,h3,p,a,button{
+    font-family: "Lucinda Grande", "Lucinda Sans Unicode", Helvetica, Arial, Verdana, sans-serif;
+}
+
+.onepage{
+    height:750px;
+}
+
+.onepage-bg{
+    height: 800px;
+    width: 100%;
+    position: absolute;
+    background-position: center center;
+    background-size: cover;
+}
+
+
+#onepagebgz{
+    background-image: url("6.svg");
+}
+
+
+.headh1content{
+    margin-top: 150px;
+    line-height: 75px;
+}
+
+
+.title-text{
+    margin-left: 50px;
+}
+
+.headfontsize h1{
+    font-size: 50pt;
+    color: #000000;
+}
+
+.headfontsize p{
+    color: #0f0f0f;
+}

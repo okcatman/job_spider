@@ -1,0 +1,10 @@
+Scrapy                
+requests
+gevent     
+flask
+Mysql
+SQLAlchemy
+BeautifulSoup4
+jieba
+
+

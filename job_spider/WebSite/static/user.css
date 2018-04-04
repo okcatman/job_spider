@@ -1,0 +1,60 @@
+*{
+    margin: 0;
+    padding: 0;
+
+}
+
+body{
+    font-size: 12px;
+    font-family: "Lucinda Grande", "Lucinda Sans Unicode", Helvetica, Arial, Verdana, sans-serif;
+}
+
+#header{
+    height: 31px;
+    min-width: 990px;
+    padding: 9px 10px 0 0;
+    position: relative;
+}
+
+#hd_nav{
+    float: right;
+}
+
+ul{
+    list-style: none;
+}
+
+#hd_nav li{
+    border-right: 1px solid rgba(255,255,255,0.2);
+    float: left;
+    height: 14px;
+    padding: 0 10px;
+}
+
+/*以下为主体的样式*/
+
+.p1{
+    color: #269abc;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    text-align: center;
+    font-size: large;
+}
+
+#search1{
+    margin-left: 350px;
+    margin-right: 30px;
+    height: 30px;
+    width: 500px;
+    text-align: center;
+}
+
+#sh1{
+    font-size: 50px;
+}
+
+
+.btn-jobs a{
+    margin-left: 10px;
+    margin-top: 5px;
+}

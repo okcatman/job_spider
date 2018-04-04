@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>我要爆料</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='user.css')}}">
+</head>
+<body>
+    <header id="header">
+        <nav id="hd_nav">
+            <ul>
+                <li>
+                    <a href="#">
+                        Hello,{{name}}
+                    </a>
+                </li>
+                <li>
+                    <a href="/user">
+                        个人中心
+                    </a>
+                </li>
+                <li>
+                    <a href="/logout">
+                        退出登陆
+                    </a>
+                </li>
+                <li>
+                    <a href="/bbs">
+                        进入论坛
+                    </a>
+                </li>
+                <li>
+                    <a href="http://heissuperhan.github.io/about/">
+                        简历
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <!--zhuti-->
+    <div class="container" style="margin-top: 30px;">
+        <form name="vote" method="post">
+            <table class="table table-hover" style="font-size: 25px;">
+                <tr>
+                    <th>公司</th><th>工作</th><th>薪资</th><th>地点</th><th>备注说明</th><th>可信度</th><th>发布时间</th>
+                </tr>
+                {% for x in content %}
+                    <tr>
+                        {% for y in x %}
+                            <td>{{y}}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+            <input type="text" value="{{id}}"  name="rowid" hidden>
+            <p style="text-align: center;margin-top: 50px;">
+                <button type="button" class="btn btn-warning btn-lg" onclick="down()" style="margin-right: 50px;">差评，不符合事实</button>
+                <button type="button" class="btn btn-success btn-lg" onclick="up()">很好，事实如此</button>
+            </p>
+        </form>
+        <script>
+            function up() {
+                document.vote.action="/vote/up";
+                document.vote.submit();
+            }
+            function down() {
+                document.vote.action="/vote/down";
+                document.vote.submit();
+            }
+        </script>
+    </div>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>爆料你的真实薪水</title>
+    <link rel="stylesheet" href="../static/layui/css/layui.css">
+    <link rel="stylesheet" href="../static/bootstrap.min.css">
+    <script src="../static/layui/lay/dest/layui.all.js"></script>
+</head>
+<body>
+<!--水平导航-->
+<div id="nav" >
+    <ul class="layui-nav" lay-filter="" >
+      <li class="layui-nav-item layui-this"><a href="/">Nice_^Date首页</a></li>
+      <li class="layui-nav-item"><a href="/sns" class="layui-icon">&#xe63a;爆料你的真实薪水</a></li>
+      <li class="layui-nav-item"><a href="/bbs" class="layui-icon">&#xe63c;留言报错</a></li>
+      <li class="layui-nav-item">
+        <a href="/login" class="layui-icon">&#xe612;登陆/注册</a>
+      </li>
+        <li class="layui-nav-item"><a href="/api" class="layui-icon">&#xe64e;API</a></li>
+       <li class="layui-nav-item"><a href="" class="layui-icon">&#xe615;搜索</a></li>
+         <li class="layui-nav-item"><a href="http://heissuperhan.github.io/about/" class="layui-icon">&#xe64c;简历</a></li>
+        <li class="layui-nav-item">{{ name }}</li>
+    </ul>
+</div>
+<!--标题头-->
+<div id="form_title" style="text-align: center;margin:0 auto; width: 50%;">
+      <blockquote class="layui-elem-quote layui-quote-nm">你可以在此爆料你公司的真实薪水，与广大职场新人分享！</blockquote>
+</div>
+<!--薪水表单-->
+<div id="form" style="text-align: center;">
+    <form class="layui-form" action="/sns" method="post">
+        <div class="layui-form-item">
+             <div class="layui-inline">
+                 <label class="layui-form-label">公司名</label>
+                 <div class="layui-input-inline" style="width: 300px;">
+                     <input type="text" name="gsname" placeholder="例如：华为" autocomplete="off" class="layui-input" required>
+                 </div>
+             </div>
+             <div class="layui-inline">
+                 <label class="layui-form-label">职位</label>
+                 <div class="layui-input-inline" style="width: 300px;">
+                     <input type="text" name="jobname" placeholder="例如：云计算开发" autocomplete="off" class="layui-input" required>
+                 </div>
+             </div>
+        </div>
+        <div class="layui-form-item">
+             <div class="layui-inline">
+                 <label class="layui-form-label">月薪</label>
+             <div class="layui-input-inline" style="width: 139px;">
+                 <input type="text" name="salary_min" placeholder="￥" autocomplete="off" class="layui-input" required>
+             </div>
+             <div class="layui-form-mid">-</div>
+             <div class="layui-input-inline" style="width: 139px;">
+                <input type="text" name="salary_max" placeholder="￥" autocomplete="off" class="layui-input" required>
+             </div>
+             </div>
+            <div class="layui-inline">
+                 <label class="layui-form-label">地点</label>
+                 <div class="layui-input-inline" style="width: 300px;">
+                     <input type="text" name="city" placeholder="例如：杭州" autocomplete="off" class="layui-input" required>
+                 </div>
+             </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                 <label class="layui-form-label">备注</label>
+                 <div class="layui-input-inline" style="width: 400px;">
+                     <input type="text" name="more" placeholder="例如：五险一金啦，各种福利啦" autocomplete="off" class="layui-input" required>
+                 </div>
+             </div>
+            <div class="layui-inline" style="margin-left: 100px;">
+                 <button class="layui-btn" lay-submit lay-filter="formDemo">立即爆料</button>
+                 <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                <span style="color: red;">{{ Issafe }}</span>
+            </div>
+        </div>
+    </form>
+</div>
+<hr>
+<!--爆料列表区域-->
+<div style="margin-left: 50px;margin-right: 50px;">
+            <table class="table table-hover">
+                <tr>
+                    <th>公司</th><th>职位</th><th>工作地点</th><th>发布日期</th><th>详情</th>
+                </tr>
+                {% for x in content %}
+                    <tr>
+                        <td>{{x[0]}}</td>
+                        <td>{{x[1]}}</td>
+                        <td>{{x[2]}}</td>
+                        <td>{{x[3]}}</td>
+                        <td><a href="/detail/{{x[4]}}">详情</a></td>
+                    </tr>
+                {% endfor %}
+            </table>
+</div>
+</body>
+</html>

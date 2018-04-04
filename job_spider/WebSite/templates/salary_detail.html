@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>详情</title>
+    <link rel="stylesheet" href="../static/layui/css/layui.css">
+    <link rel="stylesheet" href="../static/bootstrap.min.css">
+    <script src="../static/layui/lay/dest/layui.all.js"></script>
+</head>
+<body>
+<!--水平导航-->
+<div id="nav" >
+    <ul class="layui-nav" lay-filter="" >
+      <li class="layui-nav-item layui-this"><a href="/">Nice_^Date首页</a></li>
+      <li class="layui-nav-item"><a href="/sns" class="layui-icon">&#xe63a;爆料你的真实薪水</a></li>
+      <li class="layui-nav-item"><a href="/bbs" class="layui-icon">&#xe63c;留言报错</a></li>
+      <li class="layui-nav-item">
+        <a href="/login" class="layui-icon">&#xe612;登陆/注册</a>
+      </li>
+        <li class="layui-nav-item"><a href="/api" class="layui-icon">&#xe64e;API</a></li>
+       <li class="layui-nav-item"><a href="" class="layui-icon">&#xe615;搜索</a></li>
+         <li class="layui-nav-item"><a href="http://heissuperhan.github.io/about/" class="layui-icon">&#xe64c;简历</a></li>
+    </ul>
+</div>
+<!--content-->
+ <div class="container" style="margin-top: 30px;">
+        <form name="vote" method="post">
+            <table class="table table-hover" style="font-size: 25px;">
+                <tr>
+                    <th>公司</th><th>工作</th><th>薪资</th><th>地点</th><th>备注说明</th><th>可信度</th><th>发布时间</th>
+                </tr>
+                {% for x in content %}
+                    <tr>
+                        {% for y in x %}
+                            <td>{{y}}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </table>
+            <input type="text" value="{{id}}"  name="rowid" hidden>
+            <p style="text-align: center;margin-top: 50px;">
+                <button type="button" class="btn btn-warning btn-lg" onclick="down()" style="margin-right: 50px;">差评，不符合事实</button>
+                <button type="button" class="btn btn-success btn-lg" onclick="up()">很好，事实如此</button>
+            </p>
+        </form>
+        <script>
+            function up() {
+                document.vote.action="/vote/up";
+                document.vote.submit();
+            }
+            function down() {
+                document.vote.action="/vote/down";
+                document.vote.submit();
+            }
+        </script>
+    </div>
+</body>
+</html>

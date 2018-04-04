@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人中心</title>
+    <script src="{{url_for('static',filename='jquery-3.1.1.min.js')}}"></script>
+    <script src="{{url_for('static',filename='echarts.min.js')}}"></script>
+    <script src="{{url_for('static',filename='boostrap.min.js')}}"></script>
+    <link rel="stylesheet" href="{{url_for('static',filename='bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='user.css')}}">
+</head>
+<body>
+
+    <header id="header">
+        <nav id="hd_nav">
+            <ul>
+                <li>
+                    <a href="#">
+                        Hello,{{name}}{{name2}}
+                    </a>
+                </li>
+                <li>
+                    <a href="/login">
+                        个人中心
+                    </a>
+                </li>
+                <li>
+                    <a href="/logout">
+                        退出登陆
+                    </a>
+                </li>
+                <li>
+                    <a href="/bbs">
+                        留言报错
+                    </a>
+                </li>
+                <li>
+                    <a href="/sns">
+                        我要爆料
+                    </a>
+                </li>
+                <li>
+                    <a href="http://heissuperhan.github.io/about/">
+                        简历
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!--zhuti-->
+
+    <div class="row">
+        <div class="col-md-12" >
+            <p class="p1"><span id="sh1">2016年秋季互联网IT技术招聘数据分析报告</span><br>本站总共采集<var>拉勾网</var>、<var>智联招聘</var>、<var>前程无忧</var>三大招聘网站的IT技术招聘信息，收录26个技术职位共15万余条详细信息
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <form action="">
+
+            <input type="text" id="search1" placeholder="  基于精确分词的搜索模式">
+
+            <button type="button" class="btn-primary btn btn-group-sm" style="align-content: center">Search!</button>
+            </form>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="page-header">
+                <h1 style="text-align: center;">First.脏数据爬虫采集 <small>查看对应脏数据</small></h1>
+            </div>
+            <div style="margin-left: 20px;margin-right: 20px;">
+                <div style="margin-bottom: 4px;"><span style="color: red;font-size: 15px;">本站开放爬取到的历史职位数据，如有需要的开发者可以调用Api获取数据</span><br></div>
+                <span><label style="color:#66512c;">来源网站：</label><var>拉勾（lagou）</var><var>智联招聘（zhilian）</var><var>前程无忧（51job）</var></span><br>
+                <span><label style="color:#66512c;margin-top: 4px;">语言类型：</label>['java','python','php','c','_net','csharp','cplusplus','vb','delphi', 'perl','ruby','hadoop','node_js','go','asp', 'shujuwajue','ziranyuyanchuli','html5','android','ios','wp', 'web前端','flash','javaScript','u3d','cocos2d_x', ]</span><br>
+                <label style="color: #66512c;margin-top: 4px;">api获取格式如下：</label><br>
+                <pre>
+                    <code>
+                        request:
+                            method:GET
+                            url:/ubdata/lagou/java?auth=username&pass=password
+                        response:
+                            json，[(xxx.xxx.xxx.xxx.xxx.xxx.xxx.),.....]
+                    </code>
+                </pre>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="page-header">
+                <h1 style="text-align: center;">Second.数据清洗 <small>数据过滤去重复以及无效数据，识别并统一格式</small></h1>
+            </div>
+            <div>
+                <div style="margin-bottom: 4px;"><span style="margin-left: 20px;font-size: 15px;color: red;">例如薪资格式统一：</span><span>&nbsp;&nbsp;</span><kbd>python</kbd><span>&nbsp;&nbsp;</span><kbd>ubuntu</kbd><span>&nbsp;&nbsp;</span><kbd>SQLite</kbd><br></div>
+                <pre style="margin-left: 20px;margin-right: 20px;">
+                <code>
+                    #!/usr/bin/env python
+                    import sqlite3
+                    import time
+                    jobs = ['java','python','php','c','_net','csharp','cplusplus','vb','delphi', 'perl','ruby','hadoop','node_js',
+                    'go','asp', 'shujuwajue','ziranyuyanchuli','html5','android','ios','wp', 'web前端','flash','javaScript','u3d','cocos2d_x', ]
+
+                    conn = sqlite3.connect('lagou1.db')
+                    cursor = conn.cursor()
+
+                    for x in jobs:
+                        row_id = cursor.execute('select rowid from'+' '+x)
+                        row_id2 = row_id.fetchall()
+                        print('总共'+str(len(list(row_id2)))+'条数据')
+                        print('即将进行职位：'+x)
+                        for row_id3 in row_id2:
+                            id = row_id3[0]
+                            print(id)
+                            salary = cursor.execute('select salary from'+' '+x+' where rowid='+str(id))
+                            salary_result = salary.fetchall()
+                            print(salary_result)
+                            salary_result_1 = salary_result[0][0]
+                            print(salary_result_1)
+                            salary_result_2 = salary_result_1.replace('k','000') #将薪资中的k转换为具体数字
+                            salary_result_3 = salary_result_2.replace('K','000')
+                            print(salary_result_2)
+                            salary_update = cursor.execute("update"+" "+x+" set salary=? where rowid=?",(str(salary_result_2),str(id)))
+                    conn.commit()
+                    cursor.close()
+                    conn.close()
+                    print('-----------------Over------------------')
+                </code>
+                </pre>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="page-header">
+                <h1 style="text-align: center;">分析一. <small>互联网中哪个招聘职位（技术）最高薪？</small></h1>
+            </div>
+            <div id="q1" style="width: 1200px;height:400px; margin:0 auto ">
+            <script>
+                 var myChart_q1 = echarts.init(document.getElementById('q1'));
+
+                myChart_q1.showLoading();  //加载动画
+
+                $.get("/data_charts/q1",function (data1) {
+                    data_q1 = data1;
+                    // var str = JSON.parse(data_q1);
+                    // document.write(data_q1.job);
+                    myChart_q1.hideLoading();//隐藏动画
+                    myChart_q1.setOption({
+                    title:{
+                        text:'哪种技术最高薪？'
+                    },
+                    tooltip:{},
+                    legend:{
+                        data:['薪资']
+                    },
+                     xAxis: {data: data_q1.job},
+                      yAxis:{},
+                    series: [{
+                    name: '薪资',
+                    type: 'bar',
+                    data: data_q1.salary
+                    }]
+                    });
+                });
+            </script>
+            </div>
+        </div>
+    </div>
+
+
+    <!--饼图-->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="page-header">
+                <h1 style="text-align: center;">分析二. <small>互联网哪种规模的公司最土豪？</small></h1>
+            </div>
+            <div id="q2" style="width: 1200px;height: 400px;margin: 0 auto;">
+                <script>
+                    var myChart_q2 = echarts.init(document.getElementById('q2'));
+
+                myChart_q2.showLoading();  //加载动画
+
+                $.get("/data_charts/q2",function (data2) {
+                    data_q2 = data2;
+                    // var str = JSON.parse(data_q1);
+                    // document.write(data_q1.job);
+                    myChart_q2.hideLoading();//隐藏动画
+                    myChart_q2.setOption(
+
+                            {
+    backgroundColor: '#2c343c',
+
+    title: {
+        text: '哪种规模的公司最土豪（月薪高）？',
+        left: 'center',
+        top: 20,
+        textStyle: {
+            color: '#ccc'
+        }
+    },
+
+    tooltip : {
+        trigger: 'item',
+        formatter: "{a} <br/>{b} : {c} ({d}%)"
+    },
+
+    visualMap: {
+        show: false,
+        min: 80,
+        max: 600,
+        inRange: {
+            colorLightness: [0, 1]
+        }
+    },
+    series : [
+        {
+            name:'月薪',
+            type:'pie',
+            radius : '55%',
+            center: ['50%', '50%'],
+            data:[
+                {value:data_q2.salary[0], name:data_q2.jieduan[0]},
+                {value:data_q2.salary[1], name:data_q2.jieduan[1]},
+                {value:data_q2.salary[2], name:data_q2.jieduan[2]},
+                {value:data_q2.salary[3], name:data_q2.jieduan[3]},
+                {value:data_q2.salary[4], name:data_q2.jieduan[4]},
+                {value:data_q2.salary[5], name:data_q2.jieduan[5]},
+                {value:data_q2.salary[6], name:data_q2.jieduan[6]},
+                {value:data_q2.salary[7], name:data_q2.jieduan[7]}
+            ].sort(function (a, b) { return a.value - b.value}),
+            roseType: 'angle',
+            label: {
+                normal: {
+                    textStyle: {
+                        color: 'rgba(255, 255, 255, 0.3)'
+                    }
+                }
+            },
+            labelLine: {
+                normal: {
+                    lineStyle: {
+                        color: 'rgba(255, 255, 255, 0.3)'
+                    },
+                    smooth: 0.2,
+                    length: 10,
+                    length2: 20
+                }
+            },
+            itemStyle: {
+                normal: {
+                    color: '#c23531',
+                    shadowBlur: 200,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        }
+    ]
+}
+
+                    );
+                });
+
+                </script>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="page-header">
+                <h1 style="text-align: center;">分析三. <small>互联网哪个技术岗位需求量最大？</small></h1>
+            </div>
+            <div id="q3" style="width: 1200px;height: 600px;margin: 0 auto;">
+                <script>
+                    var myChart_q3 = echarts.init(document.getElementById('q3'));
+
+                myChart_q3.showLoading();  //加载动画
+
+                $.get("/data_charts/q3",function (data3) {
+                    data_q3 = data3;
+                    // var str = JSON.parse(data_q1);
+                    // document.write(data_q3.javaScript[1]);
+                    myChart_q3.hideLoading();//隐藏动画
+                    myChart_q3.setOption({
+                            title:{
+                        text:'哪个技术岗位需求量最大？'
+                    },
+                    tooltip:{},
+                    legend:{
+                        data:['百分比']
+                    },
+                     xAxis: {data: data_q3.job},
+                      yAxis:{},
+                    series: [{
+                    name: '百分比',
+                    type: 'bar',
+                    data: data_q3.bili
+                    }]
+                    }
+                    );
+
+                });
+
+                </script>
+            </div>
+        </div>
+    </div>
+
+
+     <div class="row">
+        <div class="col-md-12">
+            <div class="page-header">
+                <h1 style="text-align: center;">分析四. <small>哪个领域的公司最缺人？</small></h1>
+            </div>
+            <div id="q4" style="width: 1200px;height:400px; margin:0 auto ">
+            <script>
+                 var myChart_q4 = echarts.init(document.getElementById('q4'));
+
+                myChart_q4.showLoading();  //加载动画
+
+                $.get("/data_charts/q4",function (data1) {
+                    data_q4 = data1;
+                    // var str = JSON.parse(data_q1);
+                    // document.write(data_q1.job);
+                    myChart_q4.hideLoading();//隐藏动画
+                    myChart_q4.setOption(
+                         {
+    title : {
+        text: '哪个公司的领域最缺人？',
+        subtext: '百分比',
+        x:'center'
+    },
+    tooltip : {
+        trigger: 'item',
+        formatter: "{a} <br/>{b} : {c} ({d}%)"
+    },
+    legend: {
+        orient: 'vertical',
+        left: 'left',
+        data: data_q4.field
+    },
+    series : [
+        {
+            name: '百分比',
+            type: 'pie',
+            radius : '55%',
+            center: ['50%', '60%'],
+            data:[
+                {value:data_q4.bili[0], name:data_q4.field[0]},
+                {value:data_q4.bili[1], name:data_q4.field[1]},
+                {value:data_q4.bili[2], name:data_q4.field[2]},
+                {value:data_q4.bili[3], name:data_q4.field[3]},
+                {value:data_q4.bili[4], name:data_q4.field[4]},
+                {value:data_q4.bili[5], name:data_q4.field[5]},
+                {value:data_q4.bili[6], name:data_q4.field[6]},
+                {value:data_q4.bili[7], name:data_q4.field[7]},
+                {value:data_q4.bili[8], name:data_q4.field[8]},
+                {value:data_q4.bili[9], name:data_q4.field[9]},
+                {value:data_q4.bili[10], name:data_q4.field[10]},
+                {value:data_q4.bili[11], name:data_q4.field[11]},
+                {value:data_q4.bili[12], name:data_q4.field[12]}
+            ],
+            itemStyle: {
+                emphasis: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            }
+        }
+    ]
+}
+                    );
+                });
+            </script>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="page-header">
+                <h1 style="text-align: center;">分析五. <small>互联网职位招聘的地域分布情况</small></h1>
+            </div>
+            <div id="q5" style="width: 1200px;height: 600px;margin: 0 auto;">
+                <script>
+                    var myChart_q5 = echarts.init(document.getElementById('q5'));
+
+                      myChart_q5.showLoading();  //加载动画
+                     $.get("/data_charts/q5",function (data1) {
+                         myChart_q5.hideLoading();
+                         data_q5 = data1;
+                         myChart_q5.setOption({
+                                 title: {
+        text: '互联网十大主要城市招聘分布比例'
+    },
+    tooltip: {},
+    legend: {
+        data: ['分布比例']
+    },
+    radar: {
+        // shape: 'circle',
+        indicator: [
+           { name: data_q5.city[0], max: 3000},
+           { name: data_q5.city[1], max: 3000},
+           { name: data_q5.city[2], max: 3000},
+           { name: data_q5.city[3], max: 3000},
+           { name: data_q5.city[4], max: 3000},
+           { name: data_q5.city[5], max: 3000},
+           { name: data_q5.city[6], max: 3000},
+           { name: data_q5.city[7], max: 3000},
+           { name: data_q5.city[8], max: 3000},
+           { name: data_q5.city[9], max: 3000}
+        ]
+    },
+    series: [{
+        name: '十大主要城市招聘分布比例',
+        type: 'radar',
+        // areaStyle: {normal: {}},
+        data : [
+            {
+                value : data_q5.count,
+                name : '所占比例'
+            }
+        ]
+    }]
+                         });
+
+                     });
+
+                </script>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+</body>
+</html>

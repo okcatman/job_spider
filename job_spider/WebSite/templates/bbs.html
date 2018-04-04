@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>留言</title>
+    <link rel="stylesheet" href="../static/layui/css/layui.css">
+    <link rel="stylesheet" href="../static/bootstrap.min.css">
+    <script src="../static/layui/lay/dest/layui.all.js"></script>
+</head>
+<body>
+<!--水平导航-->
+<div id="nav" >
+    <ul class="layui-nav" lay-filter="" >
+      <li class="layui-nav-item layui-this"><a href="/">Nice_^Date首页</a></li>
+      <li class="layui-nav-item"><a href="/sns" class="layui-icon">&#xe63a;爆料你的真实薪水</a></li>
+      <li class="layui-nav-item"><a href="/bbs" class="layui-icon">&#xe63c;留言报错</a></li>
+      <li class="layui-nav-item">
+        <a href="/login" class="layui-icon">&#xe612;登陆/注册</a>
+      </li>
+        <li class="layui-nav-item"><a href="/api" class="layui-icon">&#xe64e;API</a></li>
+       <li class="layui-nav-item"><a href="" class="layui-icon">&#xe615;搜索</a></li>
+         <li class="layui-nav-item"><a href="http://heissuperhan.github.io/about/" class="layui-icon">&#xe64c;简历</a></li>
+        <li class="layui-nav-item">{{ name }}</li>
+    </ul>
+</div>
+<!--表单头-->
+<div id="form_title" style="text-align: center;margin:0 auto; width: 50%;">
+      <blockquote class="layui-elem-quote layui-quote-nm">您好，如果站点有什么Bug或者对数据分析部分有什么指教可以发布在下方</blockquote>
+</div>
+<!--表单区域-->
+    <div id="form" style="align-content: center;margin:0 auto; width: 50%;">
+        <form class="layui-form" action="/bbs" method="post">
+            <div class="layui-form-item">
+                <label class="layui-form-label">主题</label>
+                <div class="layui-input-block" style="width: 400px;">
+                     <input type="text" name="theme" required  placeholder="请输入标题" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">内容</label>
+                <div class="layui-input-block" style="width: 400px;">
+                    <textarea name="content" placeholder="请输入内容" class="layui-textarea" required></textarea>
+                 </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                     <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    <span style="color: red;">{{Issafe}}</span>
+                </div>
+            </div>
+        </form>
+    </div>
+<hr>
+<!--content-->
+<div id="bbs_content" style="margin-left: 100px;margin-right: 100px;">
+    <div style="margin-left: 30px;margin-right: 30px;">
+     {% if content %}
+        {% for x in content %}
+        <div class="media">
+            <a class="media-left" href="#">
+                 <img src="{{url_for('static',filename='touxiang.jpg')}}" alt="touxiang" style="height: 70px;width: 70px;">
+            </a>
+
+            <div class="media-body">
+                <h4 class="media-heading">{{x[0]}}&gt;{{x[1]}}</h4>
+                {{x[2]}}
+                <br>
+            </div>
+        </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+</div>
+</body>
+</html>

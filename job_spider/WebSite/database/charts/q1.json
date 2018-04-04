@@ -1,0 +1,6 @@
+{"html5": 8315, "web前端": 8609, "android": 10223, "u3d": 13744, "delphi": 9649, "cplusplus": 10339, "asp": 9225, "csharp": 9667, "_net": 9299, "php": 9409, "hadoop": 19074, "ios": 10772, "wp": 11643, "c": 9099, "ziranyuyanchuli": 23603, "node_js": 14750, "java": 9736, "javaScript": 11668, "go": 20783, "perl": 15334, "cocos2d_x": 12598, "ruby": 15345, "python": 14343, "flash": 6972, "vb": 12122, "shujuwajue": 16663}
+
+{
+  "job":["html5","web前端","android","u3d","delphi","c++","asp","c#",".net","php","hadoop","ios","wp","c","自然语言处理","node.js","java","javascript","go","perl","cocos2d-x","ruby","python","flash","vb","数据挖掘"],
+  "salary":[8315,8609,10223,13744,9649,10339,9225,9667,9299,9409,19074,10772,11643,9099,23603,14750,9736,11668,20783,15334,12598,15345,14343,6972,12122,16663]
+}
